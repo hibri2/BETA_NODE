@@ -1,0 +1,2 @@
+<ANA-form (onLogin)="onLogin($event)" *ngIf="loginData.id === 0"></ANA-form>
+<ANA-authenticator [loginData]="loginData" *ngIf="loginData.id !== 0"></ANA-authenticator>

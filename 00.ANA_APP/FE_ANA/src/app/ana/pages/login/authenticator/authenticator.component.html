@@ -1,0 +1,23 @@
+<div *ngIf="message">
+    {{message}}
+    <ul>
+      <li><a routerLink="/login">Back</a></li>
+    </ul>
+  </div>
+  <div>
+    <main class="form-signin" *ngIf="!message">
+      <form [formGroup]="form" (submit)="submit()">
+        <h1 class="h3 mb-3 fw-normal">User Access - Inser Authenticator Code</h1>
+  
+        <div class="form-floating">
+          <input formControlName="code" class="form-control" placeholder="6 digits code">
+          <label>6 Digits Code ::</label>
+        </div>
+  
+        <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Log In</button>
+      </form>
+      <div>
+        <qrcode [qrdata]="LoginData.xQrCode" [width]="300" [errorCorrectionLevel]="'M'"></qrcode>
+      </div>
+    </main>
+  </div>
