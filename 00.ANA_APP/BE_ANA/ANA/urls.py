@@ -7,7 +7,8 @@ from .api import (
     ResetPasswordView,
     TwoFactorAPIView,
     UserAPIView, 
-    RefreshAPIView
+    RefreshAPIView,
+    get2FACodeAPIView
 )
 
 
@@ -15,6 +16,7 @@ urlpatterns = [
     path('register', RegisterAPIView.as_view()),
     path('login', LoginAPIView.as_view()),
     path('two-factor', TwoFactorAPIView.as_view()),
+    path('get2FAQR', get2FACodeAPIView.as_view()),
     path('user', UserAPIView.as_view()),
     path('refresh', RefreshAPIView.as_view()),
     path('logout', LogOutAPIView.as_view()),

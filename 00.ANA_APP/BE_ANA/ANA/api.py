@@ -42,7 +42,7 @@ class LoginAPIView (APIView):
             })
 
         secret = pyotp.random_base32()
-        otpauth_url = pyotp.totp.TOTP(secret).provisioning_uri(issuer_name='ANA_OTP')
+        otpauth_url = pyotp.totp.TOTP(secret).provisioning_uri(issuer_name='ANA_OTP-'+ checkUser.email)
 
         return Response({
             'id': checkUser.id,
@@ -82,6 +82,28 @@ class TwoFactorAPIView(APIView):
             'token': access_token
         }
         return response
+
+
+class get2FACodeAPIView (APIView):
+    def post(self, request):
+        id = request.data['id']
+        checkUser = ANA_User.objects.filter(pk=id).first()
+
+
+        if checkUser is None:
+            raise exceptions.AuthenticationFailed('Invalid Credentials')
+
+        secret = checkUser.tfa_secret
+
+        if not checkUser.check_password(request.data['password']):
+            raise exceptions.AuthenticationFailed('Invalid Credentials')
+
+        otpauth_url = pyotp.totp.TOTP(secret).provisioning_uri(issuer_name='ANA_OTP-'+ checkUser.email)
+
+        return Response({
+            'id': checkUser.id,
+            'otpauth_url': otpauth_url
+        })
 
 
 class UserAPIView(APIView):
