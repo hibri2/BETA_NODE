@@ -10,7 +10,7 @@ class UserAdmin(admin.ModelAdmin):
         'email',
         'is_active'
     )
-    exclude = ('password',)
+    exclude = ('password','tfa_secret',)
 
 
 class UserTokenAdmin(admin.ModelAdmin):

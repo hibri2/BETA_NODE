@@ -1,17 +1,21 @@
-<main class="form-signin">
-  <div *ngIf="cls" class="alert alert-{{cls}}" role="alert">
-    {{message}}
-  </div>
+<div class="app-container">
+  <main class="form-signin">
+    <div *ngIf="cls" class="alert alert-{{cls}}" role="alert">
+      {{message}}
+    </div>
 
-    <form [formGroup]="form" (submit)="submit()">
-      <h1 class="h3 mb-3 fw-normal">Reset Password</h1>
-  
-      <div class="form-floating">
-        <input formControlName="email" type="email" class="form-control"  placeholder="htomasin@nakheel.com">
-        <label>Email address ::</label>
-      </div>
-  
-      <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Submit</button>
-    </form>
+      <form [formGroup]="form" (submit)="submit()">
+        <div class="body-container-title">
+          <h1 class="h3 mb-3 fw-normal">Reset Password</h1>
+        </div>
+
+        <div class="body-container-info">
+          <label>Email address ::</label>
+          <input formControlName="email" type="email" class="form-control"  placeholder="e@Mail">
+        </div>
+    
+        <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Submit</button>
+      </form>
   </main>
+</div>
   

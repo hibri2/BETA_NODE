@@ -4,24 +4,30 @@
       <li><a routerLink="/login">Back</a></li>
     </ul>
   </div>
-  <div class="auth-action-container">
-    <main class="form-signin" *ngIf="!message">
-      <form [formGroup]="form" (submit)="submit()">
+<div class="app-container">
+  <main class="form-signin" *ngIf="!message">
+    <form [formGroup]="form" (submit)="submit()">
+      <div class="body-container-title">
         <h1 class="h3 mb-3 fw-normal">User Access</h1>
         <h1 class="h3 mb-3 fw-normal">Insert Authenticator Code</h1>
-  
-        <div class="form-floating">
-          <input formControlName="code" class="form-control" placeholder="6 digits code">
-          <label>6 Digits Code ::</label>
-        </div>
-  
-        <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Log In</button>
-      </form>
-      <div>
-        <qrcode [qrdata]="LoginData.xQrCode" [width]="300" [errorCorrectionLevel]="'M'"></qrcode>
       </div>
-      <div class="mb-3" *ngIf="!LoginData.xQrCode">
-        <a routerLink="/get2FAQR">need to retrieve your the QR?</a>
+      
+      <div class="form-floating">
+        <input formControlName="code" class="form-control" placeholder="6 digits code">
+        <label>6 Digits Code ::</label>
       </div>
-    </main>
-  </div>
+
+      <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Log In</button>
+    </form>
+    <div>
+      <qrcode [qrdata]="LoginData.xQrCode" [width]="300" [errorCorrectionLevel]="'M'"></qrcode>
+    </div>
+    <div class="body-container-info" *ngIf="!LoginData.xQrCode">
+      <div class="buttons">
+        <button class="button" (click)="getQR()">
+          Retrieve your the QR
+        </button>
+      </div>
+    </div>
+  </main>
+</div>

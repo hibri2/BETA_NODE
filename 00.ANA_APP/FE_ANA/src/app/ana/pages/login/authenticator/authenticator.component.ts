@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { anaService } from 'src/app/ana/services/ana.service';
@@ -11,7 +11,6 @@ import { anaService } from 'src/app/ana/services/ana.service';
 export class AuthenticatorComponent implements OnInit {
   @Input('loginData') LoginData = {
     id: 0,
-    img: '',
     xQrCode:'',
   };
   message='';
@@ -31,6 +30,21 @@ export class AuthenticatorComponent implements OnInit {
   }
 
   submit(){
+    const  formData = this.form.getRawValue();
+    const data = this.LoginData;
+
+    this.anaService.authenticatorLogin({
+      ...data,
+      ...formData
+    }).subscribe(
+      (res: any) => {
+        this.anaService.accessToken = res.token;
+        anaService.anaEmitter.emit(true);
+        this.router.navigate(['/home'])
+      }
+      );
+  }
+  getQR(){
     const  formData = this.form.getRawValue();
     const data = this.LoginData;
 

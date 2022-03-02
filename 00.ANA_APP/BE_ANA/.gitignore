@@ -3,6 +3,7 @@
 # Miscellaneous
 /ANA/__pycache__
 /BE_ANA/__pycache__
+/ANA/migrations/__pycache__
 # System files
 .DS_Store
 Thumbs.db

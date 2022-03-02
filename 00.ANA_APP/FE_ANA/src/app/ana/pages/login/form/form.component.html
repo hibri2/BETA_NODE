@@ -4,25 +4,28 @@
     <li><a routerLink="/login">Return</a></li>
   </ul>
 </div>
-<div class="auth-action-container">
+<div class="app-container">
   <main class="form-signin" *ngIf="!message">
     <form [formGroup]="form" (submit)="submit()">
-      <div class="auth-action-container-title">
+      <div class="body-container-title">
         <h1 class="h3 mb-3 fw-normal">User Access</h1>
       </div>
       
-      <div class="auth-action-container-body">
-        <label>E-Mail ::</label>
-        <input formControlName="email" class="form-control"  placeholder="e@Mail">
-        <label>Password ::</label>
-        <input formControlName="password" type="password" class="form-control" placeholder="your password?">
+      <div class="body-container-info">
+          <label>E-Mail ::</label>
+          <input formControlName="email" class="form-control"  placeholder="e@Mail">
+          
+          <label>Password ::</label>
+          <input formControlName="password" type="password" class="form-control" placeholder="your password?">
       </div>
 
       <div class="mb-3">
         <a routerLink="/forgot">Forgot your password?</a>
       </div>
-      <button class="w-100 btn btn-lg btn-primary" type="submit">Log In</button>
-      <div class="link-to-register">Don't have an account? <a [routerLink]="['/register']">Get Started</a></div>
+
+      <button class="w-100 btn btn-lg btn-primary  mt-3" type="submit">Log In</button>
+
+      <div>Don't have an account? <a [routerLink]="['/register']">Get Started</a></div>
     </form>
   </main>
 </div>

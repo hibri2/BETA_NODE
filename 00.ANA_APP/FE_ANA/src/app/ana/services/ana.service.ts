@@ -18,6 +18,10 @@ export class anaService {
     return this.http.get(`${environment.api}/ana/user`);
   }
 
+  get2faqr(body:any){
+    return this.http.post(`${environment.api}/ana/get2FAQR`, body);
+  }
+
   register(body: any){
     return this.http.post(`${environment.api}/ana/register`, body);
   }

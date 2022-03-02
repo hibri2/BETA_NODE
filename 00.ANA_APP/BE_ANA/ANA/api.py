@@ -1,4 +1,5 @@
 import datetime, random, pyotp
+import email
 import string
 from django.core.mail import send_mail
 from rest_framework import exceptions
@@ -6,6 +7,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import ANA_UserSerializer
 from .models import ANA_User, ANA_UserToken, ANA_ForgotPassword
+from django.contrib.auth.models import User
 from .authentication import JWTAuthentication, create_access_token,create_refresh_token, decode_refresh_token
 
 
@@ -15,11 +17,23 @@ class RegisterAPIView (APIView):
 
         if data['password'] != data['password_confirm']:
             raise exceptions.APIException('Password do not match!')
+        
+        adminEmails = User.objects.filter(is_superuser=True).values_list('email',flat=True)
 
+        url = 'http://localhost:8000/admin/'
         serializer = ANA_UserSerializer(data= data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(serializer.data)
+        send_mail(
+                subject='New Account Created', 
+                message='New user account has been registered, kindly go to the Admin Site to approve or reject => %s' % url,
+                from_email='admin@bi.tools.nakheel.com',
+                recipient_list=adminEmails,
+                html_message='New user account has been registered, kindly go to the => <a href="%s">Admin</a> <= Site to approve or reject.'  % url,
+        )
+        return Response({
+            'message': 'New User Added Successfully!'
+        })
 
 
 class LoginAPIView (APIView):
