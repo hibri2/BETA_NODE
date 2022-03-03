@@ -13,6 +13,7 @@ export class AuthenticatorComponent implements OnInit {
     id: 0,
     xQrCode:'',
   };
+  getxQrCode='';
   message='';
   form!: FormGroup;
 
@@ -45,17 +46,13 @@ export class AuthenticatorComponent implements OnInit {
       );
   }
   getQR(){
-    const  formData = this.form.getRawValue();
     const data = this.LoginData;
-
-    this.anaService.authenticatorLogin({
+    this.anaService.get2faqr({
       ...data,
-      ...formData
     }).subscribe(
       (res: any) => {
-        this.anaService.accessToken = res.token;
-        anaService.anaEmitter.emit(true);
-        this.router.navigate(['/home'])
+        this.getxQrCode = res.otpauth_url;
+        console.log(this.getxQrCode);
       }
       );
   }

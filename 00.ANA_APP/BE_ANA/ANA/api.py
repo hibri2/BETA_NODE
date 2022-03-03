@@ -108,10 +108,6 @@ class get2FACodeAPIView (APIView):
             raise exceptions.AuthenticationFailed('Invalid Credentials')
 
         secret = checkUser.tfa_secret
-
-        if not checkUser.check_password(request.data['password']):
-            raise exceptions.AuthenticationFailed('Invalid Credentials')
-
         otpauth_url = pyotp.totp.TOTP(secret).provisioning_uri(issuer_name='ANA_OTP-'+ checkUser.email)
 
         return Response({

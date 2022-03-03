@@ -16,8 +16,6 @@ import { ForgotComponent } from './ana/pages/forgot/forgot.component';
 import { ResetComponent } from './ana/pages/reset/reset.component';
 import { FormComponent } from './ana/pages/login/form/form.component';
 import { AuthenticatorComponent } from './ana/pages/login/authenticator/authenticator.component';
-import { GetqrComponent } from './ana/pages/login/authenticator/getqr/getqr.component';
-
 
 @NgModule({
   declarations: [
@@ -31,7 +29,6 @@ import { GetqrComponent } from './ana/pages/login/authenticator/getqr/getqr.comp
     ResetComponent,
     FormComponent,
     AuthenticatorComponent,
-    GetqrComponent,
   ],
   imports: [
     BrowserModule,

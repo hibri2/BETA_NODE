@@ -1,3 +1,25 @@
-<div class="container mt-5 text-center">
-    <h3> {{ message }} </h3>
-</div>
+<div class="app-container">
+  <div class="app-container-title" *ngIf="unAuth === false" >
+      <h1>You are In!</h1>
+      
+      <div class="home-container">
+          <h3> {{ message }} </h3>
+      </div>
+      <div>
+          <div class="buttons">
+              <button class="button" (click)="leave()">Log Out</button>
+          </div>
+      </div>
+  </div>
+  <div class="body-container-title" *ngIf="unAuth === true">
+      <h1 class="h3 fw-normal">Dont be tricky ah!</h1>
+      
+      <div  class="home-container">
+          <h3> {{ message }} </h3>
+      </div>
+      <div>
+          <div class="buttons">
+              <button class="button" (click)="leave()">Leave</button>
+          </div>
+      </div>
+  </div>

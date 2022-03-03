@@ -9,7 +9,7 @@ export class LoginComponent implements OnInit {
   
   loginData = {
     id: 0,
-    img: '',
+    password:'',
     xQrCode:'',
   }
 

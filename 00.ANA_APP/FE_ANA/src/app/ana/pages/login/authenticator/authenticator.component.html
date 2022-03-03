@@ -7,7 +7,7 @@
 <div class="app-container">
   <main class="form-signin" *ngIf="!message">
     <form [formGroup]="form" (submit)="submit()">
-      <div class="body-container-title">
+      <div class="app-container-title">
         <h1 class="h3 mb-3 fw-normal">User Access</h1>
         <h1 class="h3 mb-3 fw-normal">Insert Authenticator Code</h1>
       </div>
@@ -20,13 +20,16 @@
       <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Log In</button>
     </form>
     <div>
-      <qrcode [qrdata]="LoginData.xQrCode" [width]="300" [errorCorrectionLevel]="'M'"></qrcode>
+      <qrcode [qrdata]="LoginData.xQrCode" [width]="300" [errorCorrectionLevel]="'M'" ></qrcode>
     </div>
-    <div class="body-container-info" *ngIf="!LoginData.xQrCode">
+    <div *ngIf="!LoginData.xQrCode">
       <div class="buttons">
         <button class="button" (click)="getQR()">
           Retrieve your the QR
         </button>
+        <div>
+          <qrcode [qrdata]="getxQrCode" [width]="300" [errorCorrectionLevel]="'M'" ></qrcode>
+        </div>
       </div>
     </div>
   </main>
