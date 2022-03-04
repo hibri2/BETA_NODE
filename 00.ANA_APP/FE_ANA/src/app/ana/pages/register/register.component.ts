@@ -6,7 +6,7 @@ import { anaService } from 'src/app/ana/services/ana.service';
 @Component({
   selector: 'ANA-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+  styleUrls: ['./register.component.css']
 })
 
 export class RegisterComponent implements OnInit {

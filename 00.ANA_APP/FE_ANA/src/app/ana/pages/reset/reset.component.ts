@@ -6,7 +6,7 @@ import { forgotService } from 'src/app/ana/services/forgot.service';
 @Component({
   selector: 'ANA-reset',
   templateUrl: './reset.component.html',
-  styleUrls: ['./reset.component.scss']
+  styleUrls: ['./reset.component.css']
 })
 export class ResetComponent implements OnInit {
   form!: FormGroup;

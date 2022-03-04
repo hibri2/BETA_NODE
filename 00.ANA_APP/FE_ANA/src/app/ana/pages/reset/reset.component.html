@@ -1,18 +1,18 @@
-<div class="app-container">
-  <main class="form-signin">
+<div>
+  <main>
     <form [formGroup]="form" (submit)="submit()">
-      <div class="app-container-title"> 
-        <h1 class="h3 mb-3 fw-normal">Reset Pasword</h1>
+      <div> 
+        <h1>Reset Pasword</h1>
       </div>
 
-      <div class="settings">
+      <div>
           <label>Password </label>
-          <input formControlName="password" type="password" class="form-control" placeholder="password">
+          <input formControlName="password" type="password" placeholder="password">
           <label>Retype Password </label>
-          <input formControlName="password_confirm" type="password" class="form-control" placeholder="confirm password">
+          <input formControlName="password_confirm" type="password" placeholder="confirm password">
         </div>
   
-      <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Submit</button>
+      <button type="submit">Submit</button>
     </form>
   </main>
 </div>

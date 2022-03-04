@@ -5,7 +5,7 @@ import { anaService } from 'src/app/ana/services/ana.service';
 @Component({
   selector: 'ANA-form',
   templateUrl: './form.component.html',
-  styleUrls: ['./form.component.scss']
+  styleUrls: ['./form.component.css']
 })
 export class FormComponent implements OnInit {
   @Output('onLogin') onLogin = new EventEmitter();

@@ -6,7 +6,7 @@ import { anaService } from 'src/app/ana/services/ana.service';
 @Component({
   selector: 'ANA-authenticator',
   templateUrl: './authenticator.component.html',
-  styleUrls: ['./authenticator.component.scss']
+  styleUrls: ['./authenticator.component.css']
 })
 export class AuthenticatorComponent implements OnInit {
   @Input('loginData') LoginData = {

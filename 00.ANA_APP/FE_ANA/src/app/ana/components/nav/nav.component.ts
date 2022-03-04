@@ -4,7 +4,7 @@ import { anaService } from 'src/app/ana/services/ana.service';
 @Component({
   selector: 'ANA-nav',
   templateUrl: './nav.component.html',
-  styleUrls: ['./nav.component.scss']
+  styleUrls: ['./nav.component.css']
 })
 
 export class NavComponent implements OnInit {

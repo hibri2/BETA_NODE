@@ -6,7 +6,7 @@ import { forgotService } from 'src/app/ana/services/forgot.service';
 @Component({
   selector: 'ANA-forgot',
   templateUrl: './forgot.component.html',
-  styleUrls: ['./forgot.component.scss']
+  styleUrls: ['./forgot.component.css']
 })
 export class ForgotComponent implements OnInit {
   form!: FormGroup;

@@ -1,28 +1,28 @@
-<div class="app-container">
-  <main class="form-signin">
+<div>
+  <main>
     <form [formGroup]="form" (submit)="submit()">
-      <div class="app-container-title"> 
-        <h1 class="h3 mb-3 fw-normal">Please Register</h1>
+      <div> 
+        <h1>Please Register</h1>
       </div>
     
-      <div class="settings">
+      <div>
           <label>First Name </label> 
-          <input formControlName="first_name" class="form-control"  placeholder="Your Name">
+          <input formControlName="first_name" placeholder="Your Name">
 
           <label>Last Name </label>
-          <input formControlName="last_name" class="form-control"  placeholder="Your Lastname">
+          <input formControlName="last_name" placeholder="Your Lastname">
           
           <label>Email address </label>
-          <input formControlName="email" type="email" class="form-control"  placeholder="your e@Mail">
+          <input formControlName="email" type="email" placeholder="your e@Mail">
           
 
           <label>Password </label>
-          <input formControlName="password" type="password" class="form-control" placeholder="password">
+          <input formControlName="password" type="password" placeholder="password">
           
           <label>Retype Password </label>
-          <input formControlName="password_confirm" type="password" class="form-control" placeholder="retype password">
+          <input formControlName="password_confirm" type="password" placeholder="retype password">
       </div>
-        <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Submit</button>
+        <button type="submit">Submit</button>
     </form>
   </main>
 </div>
