@@ -1,0 +1,25 @@
+<div>
+  <div *ngIf="unAuth === false" >
+      <h1>You are In!</h1>
+      
+      <div>
+          <h3> {{ message }} </h3>
+      </div>
+      <div>
+          <div>
+              <button (click)="leave()">Log Out</button>
+          </div>
+      </div>
+  </div>
+  <div *ngIf="unAuth === true">
+      <h1>Dont be tricky ah!</h1>
+      
+      <div>
+          <h3> {{ message }} </h3>
+      </div>
+      <div>
+          <div>
+              <button (click)="leave()">Leave</button>
+          </div>
+      </div>
+  </div>

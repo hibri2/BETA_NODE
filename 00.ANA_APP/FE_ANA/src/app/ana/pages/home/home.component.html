@@ -1,25 +1,45 @@
 <div>
-  <div *ngIf="unAuth === false" >
-      <h1>You are In!</h1>
-      
-      <div>
-          <h3> {{ message }} </h3>
-      </div>
-      <div>
+  <section class="text-gray-700">
+    <div class="container px-5 py-24 mx-auto">
+      <div class="text-center mb-20">
+        <div  *ngIf="unAuth === true">
+          <h1 class="sm:text-3xl text-2xl font-medium text-center title-font text-gray-900 mb-4">
+            Dont be tricky ah!
+          </h1>
+          
           <div>
-              <button (click)="leave()">Log Out</button>
+              <h3> {{ message }} </h3>
           </div>
-      </div>
-  </div>
-  <div *ngIf="unAuth === true">
-      <h1>Dont be tricky ah!</h1>
-      
-      <div>
-          <h3> {{ message }} </h3>
-      </div>
-      <div>
           <div>
-              <button (click)="leave()">Leave</button>
+              <div class="flex justify-center">
+                  <button (click)="leave()"               
+                    class="h-10 px-5 m-2 text-red-100 transition-colors duration-150 bg-red-700 rounded-lg focus:shadow-outline hover:bg-red-800"
+                    style="transition: all 0.15s ease 0s;">
+                    Leave
+                  </button>
+              </div>
           </div>
+        </div>
       </div>
-  </div>
+      <div class="flex justify-center text-center mb-20" *ngIf="unAuth === false">
+        <div>
+          <h1 class="sm:text-3xl text-2xl font-medium text-center title-font text-gray-900 mb-4">
+            You are In!
+          </h1>
+          <div>
+              <h3 class="sm:text-3xl text-2xl font-medium text-center title-font text-gray-900 mb-4">
+                {{ message }} !!
+              </h3>
+          </div>
+          <div>
+            <button (click)="leave()"
+            class="h-10 px-5 m-2 text-red-100 transition-colors duration-150 bg-green-700 rounded-lg focus:shadow-outline hover:bg-red-800"
+            style="transition: all 0.15s ease 0s;">
+              Log Out
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

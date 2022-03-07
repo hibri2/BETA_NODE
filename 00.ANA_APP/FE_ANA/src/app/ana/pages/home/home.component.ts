@@ -10,6 +10,7 @@ import { anaService } from 'src/app/ana/services/ana.service';
 export class HomeComponent implements OnInit {
   message='';
   unAuth: boolean=false;
+  date = new Date().getFullYear();
   constructor(
     private anaService: anaService,
     private router: Router

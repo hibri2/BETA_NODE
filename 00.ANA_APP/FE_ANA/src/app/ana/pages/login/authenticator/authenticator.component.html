@@ -5,32 +5,50 @@
     </ul>
   </div>
 <div>
-  <main *ngIf="!message">
-    <form [formGroup]="form" (submit)="submit()">
-      <div>
-        <h1>User Access</h1>
-        <h1>Insert Authenticator Code</h1>
-      </div>
-      
-      <div>
-        <input formControlName="code" placeholder="6 digits code">
-        <label>6 Digits Code ::</label>
-      </div>
 
-      <button type="submit">Log In</button>
-    </form>
+<form [formGroup]="form" (submit)="submit()" *ngIf="!message">
+  <div class="text-black text-center mb-5 mt-5 font-bold">
+    <small>User Access</small>
+    <small>Insert Authenticator's Code</small>
+  </div>
+  <div class="relative w-full mb-3">
+    <label
+      class="block uppercase text-gray-700 text-xs font-bold mb-2"
+      for="grid-password"
+      >6 Digits Code</label
+    ><input
+      formControlName="code"
+      type="password"
+      class="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
+      placeholder="6 digits code"
+      style="transition: all 0.15s ease 0s;"
+    />
+  </div>
+  <div class="text-center mt-6">
+    <button
+      class="bg-gray-900 text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full"
+      type="submit"
+      style="transition: all 0.15s ease 0s;"
+    >
+      Sign In
+    </button>
+  </div>
+  <section class="hero container max-w-screen-lg mx-auto pb-10 mt-3 flex justify-center">
+    <qrcode [qrdata]="LoginData.xQrCode" [width]="300" [errorCorrectionLevel]="'M'" ></qrcode>
+  </section>
+  <div *ngIf="!LoginData.xQrCode">
     <div>
-      <qrcode [qrdata]="LoginData.xQrCode" [width]="300" [errorCorrectionLevel]="'M'" ></qrcode>
-    </div>
-    <div *ngIf="!LoginData.xQrCode">
-      <div>
-        <button (click)="getQR()">
-          Retrieve your the QR
-        </button>
-        <div>
+      <button (click)="getQR()"
+      class="bg-fuchsia-900 text-white active:bg-fuchsia-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full"
+      style="transition: all 0.15s ease 0s;"
+      >
+        Retrieve your the QR
+      </button>
+      <section class="hero container max-w-screen-lg mx-auto pb-10 mt-3 flex justify-center">
+        <div class="object-center shadow-lg ">
           <qrcode [qrdata]="getxQrCode" [width]="300" [errorCorrectionLevel]="'M'" ></qrcode>
         </div>
-      </div>
+      </section>
     </div>
-  </main>
-</div>
+  </div>
+</form>
