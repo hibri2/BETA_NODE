@@ -1,7 +1,7 @@
 from rest_framework import exceptions
 from rest_framework.authentication import BaseAuthentication, get_authorization_header
-from .models import ANA_User
-import jwt,datetime
+from .models import User
+import datetime, jwt
 
 
 class JWTAuthentication(BaseAuthentication):
@@ -12,7 +12,7 @@ class JWTAuthentication(BaseAuthentication):
             token = auth[1].decode('utf-8')
             id = decode_access_token(token)
 
-            user = ANA_User.objects.get(pk=id)
+            user = User.objects.get(pk=id)
 
             return (user, None)
 

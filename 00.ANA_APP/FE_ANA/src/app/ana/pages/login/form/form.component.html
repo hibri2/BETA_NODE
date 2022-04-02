@@ -1,36 +1,52 @@
 <form [formGroup]="form" (submit)="submit()">
   <div class="text-black text-center mb-5 mt-5 font-bold">
-    <small>User Access</small>
+    User Access
   </div>
+
   <div class="relative w-full mb-3">
     <label
       class="block uppercase text-gray-700 text-xs font-bold mb-2"
       for="grid-password"
       >Email</label
-    ><input
-      formControlName="email"
-      type="email"
-      class="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
-      placeholder="e@Mail"
-      style="transition: all 0.15s ease 0s;"
-    />
+    >
+    <div class="relative">
+      <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+        <i class="text-gray-500 fa-solid fa-at"></i>
+      </div>
+      <input
+        formControlName="email"
+        type="email"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        placeholder="e@Mail"
+        style="transition: all 0.15s ease 0s;"
+      />
+    </div>
   </div>
+  
   <div class="relative w-full mb-3">
     <label
       class="block uppercase text-gray-700 text-xs font-bold mb-2"
       for="grid-password"
       >Password</label
-    ><input
-      formControlName="password"
-      type="password"
-      class="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
-      placeholder="Password"
-      style="transition: all 0.15s ease 0s;"
-    />
+    >
+    <div class="relative">
+      <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+        <i class="text-gray-500 fa-solid fa-key"></i>
+      </div>
+      <input
+        formControlName="password"
+        type="password"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        placeholder="Password"
+        style="transition: all 0.15s ease 0s;"
+      />
+    </div>
   </div>
+
   <div>
     <a routerLink="/forgot">Forgot your password?</a>
   </div>
+
   <div class="text-center mt-6">
     <button
       class="bg-gray-900 text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full"
@@ -40,7 +56,9 @@
       Sign In
     </button>
   </div>
+
   <div class="text-blue-900 text-right mt-5">
     Don't have an account? <a class="text-blue-900 text-right mt-5 font-bold" [routerLink]="['/register']">Get Started</a>
   </div>
+  
 </form>

@@ -1,9 +1,10 @@
 from rest_framework.serializers import ModelSerializer
-from .models import ANA_User
+from .models import User
 
-class ANA_UserSerializer(ModelSerializer):
+
+class UserSerializer(ModelSerializer):
     class Meta:
-        model = ANA_User
+        model = User
         fields = (
         'id', 
         'first_name', 

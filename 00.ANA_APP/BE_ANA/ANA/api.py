@@ -1,33 +1,57 @@
 import datetime, random, pyotp
-import email
 import string
 from django.core.mail import send_mail
 from rest_framework import exceptions
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import ANA_UserSerializer
-from .models import ANA_User, ANA_UserToken, ANA_ForgotPassword
-from django.contrib.auth.models import User
+from rest_framework.serializers import CharField, EmailField, IntegerField
+from .serializers import UserSerializer
+from .models import User, UserToken, ForgotPassword
+from django.contrib.auth.models import User as AUser
 from .authentication import JWTAuthentication, create_access_token,create_refresh_token, decode_refresh_token
+from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiResponse, inline_serializer
 
 
 class RegisterAPIView (APIView):
+    """
+    This API provides `create` users via `POST` method.
+    """
+
+    @extend_schema(
+        tags=['ANA'],
+        request=inline_serializer( 
+            name='ANA: User Register', 
+            fields={ 
+                'first_name': CharField(max_length=100),
+                'last_name': CharField(max_length=100),
+                'email': EmailField(),
+                'password': CharField(max_length=100),
+                'password_confirm': CharField(max_length=100),
+            } 
+        ),
+        responses={
+            201: OpenApiResponse(description='Success Message'),
+            400: OpenApiResponse(description='Error Message'),
+            500: OpenApiResponse(description='Failed Validation Message'),
+        },
+    )
+
     def post(self, request):
         data = request.data
 
         if data['password'] != data['password_confirm']:
             raise exceptions.APIException('Password do not match!')
         
-        adminEmails = User.objects.filter(is_superuser=True).values_list('email',flat=True)
+        adminEmails = AUser.objects.filter(is_superuser=True).values_list('email',flat=True)
 
         url = 'http://localhost:8000/admin/'
-        serializer = ANA_UserSerializer(data= data)
+        serializer = UserSerializer(data= data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         send_mail(
                 subject='New Account Created', 
                 message='New user account has been registered, kindly go to the Admin Site to approve or reject => %s' % url,
-                from_email='admin@bi.tools.nakheel.com',
+                from_email='no-reply@vms.nakheel.com',
                 recipient_list=adminEmails,
                 html_message='New user account has been registered, kindly go to the => <a href="%s">Admin</a> <= Site to approve or reject.'  % url,
         )
@@ -37,11 +61,40 @@ class RegisterAPIView (APIView):
 
 
 class LoginAPIView (APIView):
+    """
+    This API provides `log in` users via `POST` method.
+    """
+    @extend_schema(
+        tags=['ANA'],
+        request=inline_serializer( 
+            name='ANA: User Login', 
+            fields={ 
+                'email': EmailField(),
+                'password': CharField(max_length=100),
+            } 
+        ),
+        responses={
+            201: OpenApiResponse(
+                inline_serializer( 
+                    name='ANA: Logged In', 
+                    fields={ 
+                        'id': IntegerField(),
+                        'secret': CharField(max_length=100),
+                        'otpauth_url': CharField(max_length=512),
+                    }
+                ),
+            ),
+            400: OpenApiResponse(description='Error Message'),
+            403: OpenApiResponse(description='Invalid Credentials'),
+            500: OpenApiResponse(description='System Error'),
+        },
+    )
+
     def post(self, request):
         email = request.data['email']
         password = request.data['password']
 
-        checkUser = ANA_User.objects.filter(email=email).first()
+        checkUser = User.objects.filter(email=email).first()
 
 
         if checkUser is None:
@@ -56,7 +109,7 @@ class LoginAPIView (APIView):
             })
 
         secret = pyotp.random_base32()
-        otpauth_url = pyotp.totp.TOTP(secret).provisioning_uri(issuer_name='ANA_OTP-'+ checkUser.email)
+        otpauth_url = pyotp.totp.TOTP(secret).provisioning_uri(issuer_name='OTP-'+ checkUser.email)
 
         return Response({
             'id': checkUser.id,
@@ -66,9 +119,36 @@ class LoginAPIView (APIView):
 
 
 class TwoFactorAPIView(APIView):
+    """
+    This API provides `log in` users with 2FA via `POST` method.
+    """
+    @extend_schema(
+        tags=['ANA'],
+        request=inline_serializer( 
+            name='ANA: 2FA', 
+            fields={ 
+                'id': IntegerField(),
+                'code': IntegerField(),
+            } 
+        ),
+        responses={
+            201: OpenApiResponse(
+                inline_serializer( 
+                    name='ANA: 2FA OK', 
+                    fields={ 
+                        'token': CharField(max_length=512),
+                    }
+                ),
+            ),
+            400: OpenApiResponse(description='Error Message'),
+            403: OpenApiResponse(description='Invalid Credentials'),
+            500: OpenApiResponse(description='System Error'),
+        },
+    )
+
     def post(self, request):
         id = request.data['id']
-        checkUser = ANA_User.objects.filter(pk=id).first()
+        checkUser = User.objects.filter(pk=id).first()
 
         if checkUser is None:
             raise exceptions.AuthenticationFailed('Invalid Credentials')
@@ -85,7 +165,7 @@ class TwoFactorAPIView(APIView):
 
         access_token = create_access_token(id)
         refresh_token = create_refresh_token(id)
-        ANA_UserToken.objects.create(
+        UserToken.objects.create(
             user_id=id,
             token=refresh_token,
             expired_at=datetime.datetime.utcnow() + datetime.timedelta(days=7)
@@ -99,16 +179,43 @@ class TwoFactorAPIView(APIView):
 
 
 class get2FACodeAPIView (APIView):
+    """
+    This API provides `retrieve` QR Codes via `POST` method.
+    """
+    @extend_schema(
+        tags=['ANA'],
+        request=inline_serializer( 
+            name='ANA: GET QR', 
+            fields={ 
+                'id': IntegerField(),
+            } 
+        ),
+        responses={
+            201: OpenApiResponse(
+                inline_serializer( 
+                    name='ANA: QR OK', 
+                    fields={ 
+                        'id': IntegerField(),
+                        'otpauth_url': CharField(max_length=512),
+                    }
+                ),
+            ),
+            400: OpenApiResponse(description='Error Message'),
+            403: OpenApiResponse(description='Invalid Credentials'),
+            500: OpenApiResponse(description='System Error'),
+        },
+    )
+
     def post(self, request):
         id = request.data['id']
-        checkUser = ANA_User.objects.filter(pk=id).first()
+        checkUser = User.objects.filter(pk=id).first()
 
 
         if checkUser is None:
             raise exceptions.AuthenticationFailed('Invalid Credentials')
 
         secret = checkUser.tfa_secret
-        otpauth_url = pyotp.totp.TOTP(secret).provisioning_uri(issuer_name='ANA_OTP-'+ checkUser.email)
+        otpauth_url = pyotp.totp.TOTP(secret).provisioning_uri(issuer_name='OTP-'+ checkUser.email)
 
         return Response({
             'id': checkUser.id,
@@ -116,19 +223,39 @@ class get2FACodeAPIView (APIView):
         })
 
 
-class UserAPIView(APIView):
-    authentication_classes = [JWTAuthentication]
-
-    def get(self,request):
-        return Response(ANA_UserSerializer(request.user).data)
-
-
 class RefreshAPIView(APIView):
+    """
+    This API provides `refresh` token via `POST` method.
+    """
+    @extend_schema(
+        tags=['ANA'],
+        parameters=[
+                OpenApiParameter(
+                    name='Token',
+                    location=OpenApiParameter.COOKIE,
+                    description='Header Cookie',
+                ),
+        ],
+        responses={
+            201: OpenApiResponse(
+                inline_serializer( 
+                    name='ANA: REFRESH TOKEN', 
+                    fields={ 
+                        'refresh_token': CharField(max_length=512),
+                    }
+                ),
+            ),
+            400: OpenApiResponse(description='Error Message'),
+            403: OpenApiResponse(description='Unauthenticated'),
+            500: OpenApiResponse(description='System Error'),
+        },
+    )
+
     def post(self, request):
         refresh_token = request.COOKIES.get('refresh_token')
         id = decode_refresh_token(refresh_token)
 
-        if not ANA_UserToken.objects.filter(
+        if not UserToken.objects.filter(
             user_id=id,
             token=refresh_token,
             expired_at__gt=datetime.datetime.now(tz=datetime.timezone.utc)
@@ -142,26 +269,30 @@ class RefreshAPIView(APIView):
         })
 
 
-class LogOutAPIView(APIView):
-    def post(self, request):
-        refresh_token = request.COOKIES.get('refresh_token')
-        ANA_UserToken.objects.filter(token=refresh_token).delete
-
-        response = Response()
-        response.delete_cookie(key='refresh_token')
-        response.data = {
-            'message': 'log out successful!'
-        }
-
-        return response
-
-
 class ForgotPasswordView(APIView):
+    """
+    This API provides `request` url code for password reset via `POST` method.
+    """
+    @extend_schema(
+        tags=['ANA'],
+        request=inline_serializer( 
+            name='ANA: Forgot Password', 
+            fields={ 
+                'email': EmailField(),
+            } 
+        ),
+        responses={
+            201: OpenApiResponse(description='Success Message'),
+            400: OpenApiResponse(description='Error Message'),
+            500: OpenApiResponse(description='System Error'),
+        },
+    )
+
     def post(self, request):
         email = request.data['email']
         token = ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(10))
 
-        ANA_ForgotPassword.objects.create(
+        ForgotPassword.objects.create(
             email=request.data['email'],
             token=token
         )
@@ -181,18 +312,37 @@ class ForgotPasswordView(APIView):
         })
 
 class ResetPasswordView(APIView):
+    """
+    This API provides `reset` passwords users via `POST` method.
+    """
+    @extend_schema(
+        tags=['ANA'],
+        request=inline_serializer( 
+            name='ANA: Reset Password', 
+            fields={ 
+                'password': CharField(max_length=100),
+                'password_confirm': CharField(max_length=100),
+            } 
+        ),
+        responses={
+            201: OpenApiResponse(description='Success Message'),
+            400: OpenApiResponse(description='Error Message'),
+            500: OpenApiResponse(description='System Error'),
+        },
+    )
+
     def post(self, request):
         data = request.data
 
         if data['password'] != data['password_confirm']:
             raise exceptions.APIException('Password do not match!')
 
-        reset_password = ANA_ForgotPassword.objects.filter(token=data['token']).first()
+        reset_password = ForgotPassword.objects.filter(token=data['token']).first()
 
         if not reset_password:
             raise exceptions.APIException('Invalid Link (URL)')
 
-        checkUser = ANA_User.objects.filter(email=reset_password.email).first()
+        checkUser = User.objects.filter(email=reset_password.email).first()
 
         if not checkUser:
             raise exceptions.APIException('User not found!')
@@ -205,3 +355,56 @@ class ResetPasswordView(APIView):
         return Response({
             'message': 'Password reset successful!'
         })
+
+
+class LogOutAPIView(APIView):
+    """
+    This API provides `log out` users via `POST` method.
+    """
+    @extend_schema(
+        tags=['ANA'],
+        parameters=[
+                OpenApiParameter(
+                    name='Token',
+                    location=OpenApiParameter.COOKIE,
+                    description='Header Cookie',
+                ),
+        ],
+        responses={
+            201: OpenApiResponse(description='Success Message'),
+            400: OpenApiResponse(description='Error Message'),
+            500: OpenApiResponse(description='System Error'),
+        },
+    )
+
+    def post(self, request):
+        refresh_token = request.COOKIES.get('refresh_token')
+        UserToken.objects.filter(token=refresh_token).delete
+
+        response = Response()
+        response.delete_cookie(key='refresh_token')
+        response.data = {
+            'message': 'log out successful!'
+        }
+
+        return response
+
+
+class UserAPIView(APIView):
+    """
+    This API provides `retrieve` user information via `GET` method.  Requires authenticated user.
+    """
+    authentication_classes = [JWTAuthentication]
+
+    @extend_schema(
+        tags=['ANA'],
+        responses={
+            201: UserSerializer,
+            400: OpenApiResponse(description='Error Message'),
+            403: OpenApiResponse(description='Unauthenticated'),
+            500: OpenApiResponse(description='System Error'),
+        },
+    )
+
+    def get(self,request):
+        return Response(UserSerializer(request.user).data)

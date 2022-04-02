@@ -15,6 +15,8 @@ export class AuthenticatorComponent implements OnInit {
   };
   getxQrCode='';
   message='';
+  qrhide= true;
+  qrmessage = 'Retrieve your QR';
   form!: FormGroup;
 
   constructor(
@@ -55,5 +57,10 @@ export class AuthenticatorComponent implements OnInit {
         console.log(this.getxQrCode);
       }
       );
+      this.qrhide = !this.qrhide
+      if (this.qrhide == true) {
+        this.qrmessage = "Retrieve your QR";
+      }
+      else (this.qrmessage = "Hide your QR")
+    }
   }
-}

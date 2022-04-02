@@ -1,0 +1,36 @@
+<div>
+  <div class="container px-5 py-24 mx-auto">
+    <div class="text-center mb-20">
+      <div class="flex justify-center text-center mb-20">
+          <div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Message</th>
+                  <th>id</th>
+                  <th>entity</th>
+                  <th>project_name</th>
+                  <th>scope_description</th>
+                  <th>budget</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let plannedreq of PlannedReqArray">
+                  <th>{{ message }}</th>
+                  <th>{{ plannedreq.id }}</th>
+                  <td>{{ plannedreq.entity }}</td>
+                  <td>{{ plannedreq.project_name }}</td>
+                  <td>{{ plannedreq.scope_description }}</td>
+                  <td>{{ plannedreq.budget }}</td>
+                  <td>
+                    <button type="button">Edit</button>
+                    <button type="button">Delete</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

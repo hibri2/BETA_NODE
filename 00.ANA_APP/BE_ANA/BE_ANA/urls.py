@@ -1,15 +1,17 @@
 from django.contrib import admin
 from django.urls import path, include
-from django.conf import settings
-from django.conf.urls.static import static
-from rest_framework.documentation import include_docs_urls
+from django.views.generic.base import RedirectView
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
+
 
 urlpatterns = [
+    #ADMIN
+    path('', RedirectView.as_view(url='admin/', permanent=False)),
     path('admin/', admin.site.urls),
+    #ANA
     path('api/v1/ana/', include('ANA.urls')),
-    path('apidocs/', include_docs_urls(title='myAPI Documentation'))
+    #API DOCUMENTATION (DRF-SPECTACULAR)
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    # SCHEMA SWAGGER UI:
+    path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
 ]
-
-
-if settings.DEBUG: # new
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
-    'coreapi',
+    'drf_spectacular',
     'ANA',
 ]
 
@@ -59,7 +59,6 @@ CORS_ALLOW_CREDENTIALS = True
 CSRF_TRUSTED_ORIGINS = ['http://localhost:4200']
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:4200',
-    'http://localhost:4201',
 )
 
 ROOT_URLCONF = 'BE_ANA.urls'
@@ -86,15 +85,24 @@ WSGI_APPLICATION = 'BE_ANA.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = { 
+# CHOOSE LOCAL SQLITE OR POSTGRESQL
+
+""" DATABASES = { 
     'default': { 
         'ENGINE': 'django.db.backends.postgresql_psycopg2', 
-        'NAME': 'ANA', 
-        'USER': 'dbcore', 
-        'PASSWORD': 'dbc0r3', 
+        'NAME': 'your DB', 
+        'USER': 'your dbuser', 
+        'PASSWORD': 'your dbpassworf', 
         'HOST': 'localhost', 
         'PORT': '5432', 
     } 
+}  """
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 } 
 
 
@@ -143,7 +151,19 @@ MEDIA_URL = '/ASSETS/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
-    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+    'DEFAULT_PAGINATION_CLASS':
+    'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'ANA API Documentation',
+    'DESCRIPTION': 'A Proof of concept (PoC) for a pluggable Authorization and Authentication module BackEnd.',
+    'VERSION': '1.0.0',
+    # OTHER SETTINGS
+}
+
+#USING MAILHOG FOR TESTING, UPDATE AS REQUIRED.
 EMAIL_HOST = 'localhost'
 EMAIL_PORT =  1025

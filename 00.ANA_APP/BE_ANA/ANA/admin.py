@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ANA_User, ANA_UserToken, ANA_ForgotPassword
+from .models import User, UserToken, ForgotPassword
 
 
 class UserAdmin(admin.ModelAdmin):
@@ -8,7 +8,9 @@ class UserAdmin(admin.ModelAdmin):
         'first_name', 
         'last_name', 
         'email',
-        'is_active'
+        'created_on',
+        'last_login',
+        'is_active',
     )
     exclude = ('password','tfa_secret',)
 
@@ -30,6 +32,6 @@ class ForgotPasswordAdmin(admin.ModelAdmin):
         'token'
         )
 
-admin.site.register(ANA_User, UserAdmin)
-admin.site.register(ANA_UserToken, UserTokenAdmin)
-admin.site.register(ANA_ForgotPassword, ForgotPasswordAdmin)
+admin.site.register(User, UserAdmin)
+admin.site.register(UserToken, UserTokenAdmin)
+admin.site.register(ForgotPassword, ForgotPasswordAdmin)

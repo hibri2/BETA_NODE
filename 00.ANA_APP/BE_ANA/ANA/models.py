@@ -1,18 +1,18 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 
-class ANA_User(AbstractBaseUser):
+class User(AbstractBaseUser):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    email = models.CharField(max_length=100, unique=True)
+    email = models.EmailField(max_length=100, unique=True)
     password = models.CharField(max_length=100)
-    is_active = models.BooleanField(default=False)
     tfa_secret = models.CharField(max_length=255, default='')
+    created_on = models.DateTimeField(auto_now_add=True)
+    last_login = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=False)
     username = None
-    last_login = None
     is_superuser = None
     is_staff = None
-    date_joined = None
 
 
     USERNAME_FIELD = 'email'
@@ -28,7 +28,7 @@ class ANA_User(AbstractBaseUser):
         return self.email
 
 
-class ANA_UserToken(models.Model):
+class UserToken(models.Model):
     user_id = models.IntegerField()
     token = models.CharField(max_length=255)
     create_at = models.DateTimeField(auto_now_add=True)
@@ -43,7 +43,7 @@ class ANA_UserToken(models.Model):
         return self.user_id
 
 
-class ANA_ForgotPassword(models.Model):
+class ForgotPassword(models.Model):
     email = models.CharField(max_length=255)
     token = models.CharField(max_length=255, unique=True)
 
