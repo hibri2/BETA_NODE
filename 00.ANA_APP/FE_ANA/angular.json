@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "FE_NPC_TT": {
+    "ANA": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:application": {
@@ -34,12 +34,12 @@
       },
       "root": "",
       "sourceRoot": "src",
-      "prefix": "NPC-TT",
+      "prefix": "ANA",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/fe-npc-tt",
+            "outputPath": "dist/ana",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -97,10 +97,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "FE_NPC_TT:build:production"
+              "browserTarget": "ANA:build:production"
             },
             "development": {
-              "browserTarget": "FE_NPC_TT:build:development"
+              "browserTarget": "ANA:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -108,7 +108,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "FE_NPC_TT:build"
+            "browserTarget": "ANA:build"
           }
         },
         "test": {
@@ -131,5 +131,5 @@
       }
     }
   },
-  "defaultProject": "FE_NPC_TT"
+  "defaultProject": "ANA"
 }
