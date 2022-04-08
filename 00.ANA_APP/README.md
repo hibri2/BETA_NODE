@@ -6,9 +6,13 @@ You need to have a working `Python >= 3.7 ` and a `Django >= 4.0.3` VEnv for the
 
 Inside the `BETA_NODE/00.ANA_APP/BE_ANA/` folder do the following:
 1-`pip install -r requirements.txt`. 
+
 2-`python .\manage.py makemigrations`.
+
 3-`python .\manage.py migrate`.
+
 4-`python .\manage.py createsuperuser`.
+
 5-`python.exe .\manage.py runserver`.
 
 Navigate to `http://localhost:8000/`. 
@@ -19,6 +23,7 @@ Then log in with the account created on step 4 for the Django Admin Interface, a
 
 Inside the `BETA_NODE/00.ANA_APP/FE_ANA/` folder do the following:
 1-`npm install`. 
+
 2-`ng serve`.
 
 Navigate to `http://localhost:4200/`.
