@@ -4,6 +4,7 @@ You need to have a working `Python >= 3.7 ` and a `Django >= 4.0.3` VEnv for the
 ## Front End (Angular)
 
 Inside the `BETA_NODE/00.ANA_APP/FE_ANA/` folder do the following:
+
 1-`npm install`. 
 
 2-`ng serve`.
