@@ -13,3 +13,5 @@ Edit the main.py file with your parameters:
 `myDSFile = "YOUR DATASOURCE FILE (EXCEL)"`
 
 `myOutFile = "YOUR OUTPUT FILE (EXCEL)"`
+
+`df = pd.read_excel(pandaInputFile, sheet_name="YOUR SHEET")`

@@ -9,10 +9,10 @@ myOutDir = WindowsPath(
     r"C:\00.HOME\00.INTERNAL\01.TASKS\29.GPO_CHECK_DUPLICATES\01.WIP"
 )
 myDSFile = "00.SINGLE_DATASET_LIST_SUPPLIERS.xlsx"
-myOutFile = "XX.MATCHED_SUPPLIERS.xlsx"
+myOutFile = "XX.MATCHED_SUPPLIERS_GREEN.xlsx"
 pandaInputFile = Path(myDSDir, myDSFile)
 pandaOutputFile = Path(myOutDir, myOutFile)
-df = pd.read_excel(pandaInputFile, sheet_name="VENDORS")
+df = pd.read_excel(pandaInputFile, sheet_name="VENDORS_GREEN")
 suppliersList = df["VENDOR_NAME"].tolist()
 
 
