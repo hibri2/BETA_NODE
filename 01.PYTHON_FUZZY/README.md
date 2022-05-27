@@ -6,18 +6,10 @@ Do `pip install -r requirements.txt` to get all required packages.
 
 Edit the main.py file with your parameters:
 
-myDSDir = WindowsPath(
+`myDSDir = WindowsPath(r YOUR DATASOURCE DIRECTORY)`
 
-    r"YOUR DATASOURCE DIRECTORY"
+`myOutDir = WindowsPath(r YOUR OUTPUT DIRECTORY)`
 
-)'
+`myDSFile = "YOUR DATASOURCE FILE (EXCEL)"`
 
-myOutDir = WindowsPath(
-
-    r"YOUR OUTPUT DIRECTORY"
-
-)
-
-myDSFile = "YOUR DATASOURCE FILE (EXCEL)"
-
-myOutFile = "YOUR OUTPUT FILE (EXCEL)"
+`myOutFile = "YOUR OUTPUT FILE (EXCEL)"`
